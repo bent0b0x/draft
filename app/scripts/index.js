@@ -1,10 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Main from 'components/Main';
+import React from "react";
+import ReactDOM from "react-dom";
+import Main from "components/Main";
 
-import 'styles/index.scss';
+import "styles/index.scss";
 
-ReactDOM.render(
-  <Main />,
-  document.getElementById('app')
-);
+ReactDOM.render(<Main />, document.getElementById("app"));
