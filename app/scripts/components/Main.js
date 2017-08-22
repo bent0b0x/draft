@@ -8,20 +8,20 @@ class Main extends React.Component<void, void, void> {
     super();
     this.state = {
       racers: [
-        { name: "ben", position: 0 },
-        { name: "bert", position: 0 },
-        { name: "brandt", position: 0 },
-        { name: "celia", position: 0 },
-        { name: "chris", position: 0 },
-        { name: "dave", position: 0 },
-        { name: "eric", position: 0 },
-        { name: "jake", position: 0 },
-        { name: "kat", position: 0 },
-        { name: "laura", position: 0 },
-        { name: "patrick", position: 0 },
-        { name: "phil", position: 0 },
-        { name: "tia", position: 0 },
-        { name: "tori", position: 0 }
+        { name: "ben", position: 0, time: Infinity },
+        { name: "bert", position: 0, time: Infinity },
+        { name: "brandt", position: 0, time: Infinity },
+        { name: "celia", position: 0, time: Infinity },
+        { name: "chris", position: 0, time: Infinity },
+        { name: "dave", position: 0, time: Infinity },
+        { name: "eric", position: 0, time: Infinity },
+        { name: "jake", position: 0, time: Infinity },
+        { name: "kat", position: 0, time: Infinity },
+        { name: "laura", position: 0, time: Infinity },
+        { name: "patrick", position: 0, time: Infinity },
+        { name: "phil", position: 0, time: Infinity },
+        { name: "tia", position: 0, time: Infinity },
+        { name: "tori", position: 0, time: Infinity }
       ],
       winner: null,
       showOrder: false,
@@ -31,6 +31,7 @@ class Main extends React.Component<void, void, void> {
     this.maxAdvance = 3;
     this.minAdvance = -2;
     this.startRace = this.startRace.bind(this);
+    this.raceDone = this.raceDone.bind(this);
   }
 
   startRace() {
@@ -44,8 +45,11 @@ class Main extends React.Component<void, void, void> {
     );
   }
 
-  winner() {
-    return this.state.racers.find(racer => racer.position >= 100);
+  raceDone() {
+    return (
+      this.state.racers.filter(racer => racer.position >= 100).length >=
+      this.state.racers.length - 1
+    );
   }
 
   randomAdvance() {
@@ -55,30 +59,45 @@ class Main extends React.Component<void, void, void> {
   }
 
   race() {
-    const winner = this.winner();
-    if (!winner) {
+    if (!this.raceDone()) {
       this.setState(
         prevState => ({
-          racers: prevState.racers.map(racer => ({
-            ...racer,
-            position: racer.position + this.randomAdvance()
-          }))
+          racers: prevState.racers.map(racer => {
+            const advancement = racer.position + this.randomAdvance();
+            return {
+              ...racer,
+              position: racer.position < 100 ? advancement : racer.position,
+              time:
+                racer.time === Infinity && advancement >= 100
+                  ? Date.now()
+                  : racer.time
+            };
+          })
         }),
-        () => setTimeout(() => this.race(), 500)
-      );
-    } else {
-      this.setState(
-        {
-          winner
-        },
         () => {
-          setTimeout(() => {
-            this.setState({
-              showOrder: true
-            });
-          }, 3000);
+          const winner =
+            this.state.winner ||
+            this.state.racers.find(racer => racer.position >= 100);
+          if (winner) {
+            this.setState(
+              {
+                winner
+              },
+              () => {
+                setTimeout(() => this.race(), 50);
+              }
+            );
+          } else {
+            setTimeout(() => this.race(), 50);
+          }
         }
       );
+    } else {
+      setTimeout(() => {
+        this.setState({
+          showOrder: true
+        });
+      }, 3000);
     }
   }
 
@@ -118,7 +137,7 @@ class Main extends React.Component<void, void, void> {
           transitionEnterTimeout={1000}
           transitionLeaveTimeout={1000}
         >
-          {this.state.winner &&
+          {this.raceDone() &&
             <div
               className={`${styles.card}
                 ${(this.state.showOrder && styles.showOrder) || ""}`}
@@ -136,7 +155,7 @@ class Main extends React.Component<void, void, void> {
               <div className={styles.order}>
                 {this.state.racers
                   .slice()
-                  .sort((racer1, racer2) => racer2.position - racer1.position)
+                  .sort((racer1, racer2) => racer1.time - racer2.time)
                   .map((racer, index) =>
                     <div key={index} className={styles.draftName}>
                       {index + 1}. {racer.name}
