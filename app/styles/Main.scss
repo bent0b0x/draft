@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
+$dark: #040303;
+$medium: #3a4e48;
+$brush: #6a7b76;
+$blast: #8b9d83;
+$light: #beb0a7;
+
+*,
+*::after,
+*::before {
+  font-family: 'Roboto', sans-serif;
+}
+
+.wrapper {
+  height: 100vh;
+  position: relative;
+
+  .start {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    top: 25%;
+    left: 25%;
+    background: radial-gradient(circle at 100px 100px, #5cabff, $blast);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    cursor: pointer;
+    animation: bubble 1s ease-in-out infinite;
+
+    &:hover {
+      border: 1px solid $dark;
+    }
+
+    @keyframes bubble {
+      0% {
+        transform: scale(1.05);
+      }
+      50% {
+        transform: scale(0.95);
+      }
+      100% {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .racer,
+  .winner {
+    border-radius: 5px;
+    border: 1px solid $light;
+  }
+
+  .track {
+    display: flex;
+    flex-direction: column;
+    background: $medium;
+    height: 100%;
+    position: relative;
+
+    .racer {
+      width: 100px;
+      position: relative;
+      flex: 1 1 0;
+      background-size: cover;
+      background-position: center center;
+      margin: 5px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 500ms linear;
+      animation-name: bump;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      z-index: 2;
+
+      @keyframes bump {
+        0% {
+          top: 0px;
+        }
+        50% {
+          top: 2px;
+        }
+        100% {
+          top: -2px;
+        }
+      }
+
+      .racerName {
+        background: change-color($light, $alpha: 0.75);
+        border-radius: 3px;
+        color: $dark;
+        padding: 2px;
+      }
+    }
+
+    .finish {
+      position: absolute;
+      right: 0;
+      height: 100%;
+      background-color: $blast;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      text-align: center;
+      font-size: 30px;
+    }
+  }
+
+  .card {
+    &.showOrder {
+      .order {
+        transform: none;
+      }
+      .winner {
+        transform: rotateY(180deg);
+      }
+    }
+  }
+
+  .order,
+  .winner {
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    top: 25%;
+    left: 25%;
+    backface-visibility: hidden;
+    transition: all 1250ms linear;
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    z-index: 3;
+  }
+
+  .order {
+    transform: rotateY(180deg);
+    background-color: $blast;
+    text-align: center;
+    font-size: 25px;
+    padding: 10px;
+    height: auto;
+
+    .draftName {
+      text-transform: capitalize;
+    }
+  }
+
+  .winner {
+    background-size: cover;
+    background-position: center center;
+    top: 25%;
+    left: 25%;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 500ms ease-in-out;
+    animation: spin;
+
+    .winnerName {
+      background: change-color($light, $alpha: 0.75);
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 50px;
+      text-align: center;
+    }
+
+    &.winnerEnter {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    &.winnerEnterActive {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}

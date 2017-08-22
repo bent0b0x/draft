@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "yarn run clean && yarn run prep && webpack-dev-server -d --content-base ./build --hot --progress --colors",
     "build": "yarn run clean && yarn run prep && NODE_ENV=production webpack --progress --colors",
-    "prep": "mkdir build/ && cp index.html build/",
+    "prep": "mkdir build/ && cp index.html build/ && cp -r app/assets build/",
     "clean": "rm -rf build/",
     "lint": "eslint app test",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "react": "^15.6.1",
+    "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
