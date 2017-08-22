@@ -1,5 +1,6 @@
 import React from "react";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import Sound from "react-sound";
 
 import styles from "styles/Main.scss";
 
@@ -28,6 +29,7 @@ class Main extends React.Component<void, void, void> {
       started: false
     };
 
+    this.raceDelayMS = 500;
     this.maxAdvance = 3;
     this.minAdvance = -2;
     this.startRace = this.startRace.bind(this);
@@ -84,11 +86,11 @@ class Main extends React.Component<void, void, void> {
                 winner
               },
               () => {
-                setTimeout(() => this.race(), 50);
+                setTimeout(() => this.race(), this.raceDelayMS);
               }
             );
           } else {
-            setTimeout(() => this.race(), 50);
+            setTimeout(() => this.race(), this.raceDelayMS);
           }
         }
       );
@@ -164,6 +166,7 @@ class Main extends React.Component<void, void, void> {
               </div>
             </div>}
         </ReactCSSTransitionGroup>
+        <Sound url="assets/race.mp3" playStatus={Sound.status.PLAYING} />
       </div>
     );
   }
