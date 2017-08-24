@@ -39,7 +39,8 @@ class Main extends React.Component<void, void, void> {
   startRace() {
     this.setState(
       {
-        started: true
+        started: true,
+        startTime: Date.now()
       },
       () => {
         this.race();
@@ -54,18 +55,20 @@ class Main extends React.Component<void, void, void> {
     );
   }
 
-  randomAdvance() {
-    return (
-      Math.random() * (this.maxAdvance - this.minAdvance) + this.minAdvance
-    );
+  randomAdvance(drunkennessFactor) {
+    const minAdvance =
+      this.minAdvance - (drunkennessFactor - this.state.startTime) / 100000000;
+    return Math.random() * (this.maxAdvance - minAdvance) + minAdvance;
   }
 
   race() {
+    const drunkennessFactor = Date.now();
     if (!this.raceDone()) {
       this.setState(
         prevState => ({
           racers: prevState.racers.map(racer => {
-            const advancement = racer.position + this.randomAdvance();
+            const advancement =
+              racer.position + this.randomAdvance(drunkennessFactor);
             return {
               ...racer,
               position: racer.position < 100 ? advancement : racer.position,
