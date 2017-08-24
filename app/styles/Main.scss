@@ -61,6 +61,9 @@ $light: #beb0a7;
     background: $medium;
     height: 100%;
     position: relative;
+    background-image: url(assets/field.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 
     .racer {
       width: 100px;
