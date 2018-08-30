@@ -26,7 +26,8 @@ class Main extends React.Component<void, void, void> {
       ],
       winner: null,
       showOrder: false,
-      started: false
+      started: false,
+      musicState: Sound.status.STOPPED
     };
 
     this.raceDelayMS = 500;
@@ -40,7 +41,8 @@ class Main extends React.Component<void, void, void> {
     this.setState(
       {
         started: true,
-        startTime: Date.now()
+        startTime: Date.now(),
+        musicState: Sound.status.PLAYING
       },
       () => {
         this.race();
@@ -172,7 +174,7 @@ class Main extends React.Component<void, void, void> {
               </div>
             </div>}
         </ReactCSSTransitionGroup>
-        <Sound url="assets/race.mp3" playStatus={Sound.status.PLAYING} />
+        <Sound url="assets/race.mp3" playStatus={this.state.musicState} />
       </div>
     );
   }
