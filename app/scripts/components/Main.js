@@ -130,6 +130,9 @@ class Main extends React.Component<void, void, void> {
               <div className={styles.racerName}>
                 {racer.name}
               </div>
+              <div className={styles.dick}>
+                {racer.name === "brandt" ? "8=D~" : "8======D~~~"}
+              </div>
             </div>
           )}
           <div className={styles.finish}>FINISH</div>
