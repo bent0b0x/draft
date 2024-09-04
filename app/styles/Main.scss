@@ -16,6 +16,16 @@ $light: #beb0a7;
   height: 100vh;
   position: relative;
 
+  .ai {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    background-color: white;
+    font-size: 69px;
+    opacity: 0.5;
+  }
+
   .start {
     position: absolute;
     width: 50%;

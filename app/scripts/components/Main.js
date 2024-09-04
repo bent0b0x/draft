@@ -115,6 +115,9 @@ class Main extends React.Component<void, void, void> {
   render() {
     return (
       <div className={styles.wrapper}>
+        <div className={styles.ai}>
+          <p>Powered by IBM Watson 🧠</p>
+        </div>
         {!this.state.started &&
           <div className={styles.start} onClick={this.startRace}>
             RACE!

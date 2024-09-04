@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "UI for alexa top sites analysis",
   "scripts": {
-    "dev": "yarn run clean && yarn run prep && webpack-dev-server -d --hot --progress",
+    "dev": "NODE_OPTIONS=--legacy-ssl-provider yarn run clean && yarn run prep && webpack-dev-server -d --hot --progress",
     "build": "yarn run clean && yarn run prep && NODE_ENV=production webpack --progress --colors",
     "prep": "mkdir build/ && cp index.html build/ && cp -r app/assets build/",
     "clean": "rm -rf build/",
